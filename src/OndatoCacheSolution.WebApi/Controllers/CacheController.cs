@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OndatoCacheSolution.Domain.Caches;
 using OndatoCacheSolution.Domain.Dtos;
+using OndatoCacheSolution.Domain.Exceptions;
 using OndatoCacheSolution.Domain.Services;
 using System;
 
@@ -25,14 +26,22 @@ namespace OndatoCacheSolution.WebApi.Controllers
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("{key}")]
         public IActionResult Get(string key)
         {
-            var value = _cacheService.Get(key);
-            return Ok(value);
+            try
+            {
+                var value = _cacheService.Get(key);
+                return Ok(value);
+            }
+            catch (CacheException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            
         }
 
-        [HttpDelete]
+        [HttpDelete("{key}")]
         public IActionResult Remove(string key)
         {
             _cacheService.Remove(key);

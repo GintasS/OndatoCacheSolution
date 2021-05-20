@@ -35,13 +35,30 @@ namespace OndatoCacheSolution.IntegrationTests
             var response = await client.PostAsJsonAsync("/Cache", dto);
             response.EnsureSuccessStatusCode();
 
-            response = await client.GetAsync($"/Cache?{nameof(dto.Key)}={dto.Key}");
+            response = await client.GetAsync($"/Cache/{dto.Key}");
             response.EnsureSuccessStatusCode();
 
             var receivedStringValue = await response.Content.ReadAsStringAsync();
             var receivedValue = JsonConvert.DeserializeObject<List<object>>(receivedStringValue);
 
             dto.Value.Count().Should().Be(receivedValue.Count());
+        }
+
+        [Fact]
+        public async Task Delete_DeletingCreatedItem_ItemGetsDeleted()
+        {
+            var client = _factory.CreateClient();
+
+            var dto = _fixture.Build<CreateListCacheItemDto>()
+                .With(c => c.Value, _fixture.CreateMany<object>().ToList()).Create();
+
+            var response = await client.PostAsJsonAsync("/Cache", dto);
+            response.EnsureSuccessStatusCode();
+
+            await client.DeleteAsync($"/Cache/{dto.Key}");
+
+            response = await client.GetAsync($"/Cache/{dto.Key}");
+            response.StatusCode.Should().Be(404);
         }
     }
 }
