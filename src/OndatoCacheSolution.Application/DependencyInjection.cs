@@ -12,7 +12,7 @@ namespace OndatoCacheSolution.Application
     {
         public static void ConfigureApplication(this IServiceCollection serviceCollection)
         {
-            serviceCollection.ConfigureDomainService();
+            serviceCollection.ConfigureDomainServices();
         }
     }
 }

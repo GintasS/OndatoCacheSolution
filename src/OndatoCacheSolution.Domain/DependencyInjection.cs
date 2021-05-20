@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using OndatoCacheSolution.Domain.Mappings;
 using OndatoCacheSolution.Domain.Services;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,10 @@ namespace OndatoCacheSolution.Domain
 {
     public static class DependencyInjection
     {
-        public static void ConfigureDomainService(this IServiceCollection services)
+        public static void ConfigureDomainServices(this IServiceCollection services)
         {
             services.AddSingleton<CacheService>();
+            services.AddAutoMapper(typeof(MappingsProfile));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using OndatoCacheSolution.Domain.Models;
+﻿using OndatoCacheSolution.Domain.Exceptions;
+using OndatoCacheSolution.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,11 @@ namespace OndatoCacheSolution.Domain.Services
             _cache[key] = new CacheItem<TValue>(value, expiresAfter);
         }
 
+        public void Create(TKey key, CacheItem<TValue> item)
+        {
+            _cache[key] = item;
+        }
+
         public void Delete(TKey key)
         {
             _cache.Remove(key);
@@ -24,13 +30,17 @@ namespace OndatoCacheSolution.Domain.Services
 
         public TValue Get(TKey key)
         {
-            if (!_cache.ContainsKey(key)) return default(TValue);
+            if (!_cache.ContainsKey(key))
+            {
+                throw new CacheException($"{key} was not found in the cache");
+            }
+             
             var cached = _cache[key];
-            //if (DateTimeOffset.Now - cached.Created >= cached.ExpiresAfter)
-            //{
-            //   //_cache.Remove(key);
-            //    return default(TValue);
-            //}
+            if (DateTimeOffset.Now - cached.Created >= cached.ExpiresAfter)
+            {
+                //_cache.Remove(key);
+                return default(TValue);
+            }
             return cached.Value;
         }
     }

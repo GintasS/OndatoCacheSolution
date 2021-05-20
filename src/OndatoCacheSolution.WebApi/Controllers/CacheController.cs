@@ -21,7 +21,7 @@ namespace OndatoCacheSolution.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CacheItemDto cacheItemDto)
+        public IActionResult Create(CreateCacheItemDto cacheItemDto)
         {
             _cacheService.Create(cacheItemDto.Key, cacheItemDto.Values, cacheItemDto.Offset ?? TimeSpan.FromDays(1));
 

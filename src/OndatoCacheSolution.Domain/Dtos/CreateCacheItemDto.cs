@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace OndatoCacheSolution.Domain.Dtos
 {
-    public class CacheItemDto
+    public class CreateCacheItemDto
     {
         public string Key { get; set; }
 
         public List<object> Values { get; set; }
 
-        public TimeSpan? Offset { get; set; }
+        public string Offset { get; set; }
     }
 }
