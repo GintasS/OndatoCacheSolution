@@ -16,6 +16,12 @@ namespace OndatoCacheSolution.Domain.Services
             _cache[key] = new CacheItem<TValue>(value, expiresAfter);
         }
 
+        public void Delete(TKey key)
+        {
+            _cache.Remove(key);
+        }
+
+
         public TValue Get(TKey key)
         {
             if (!_cache.ContainsKey(key)) return default(TValue);

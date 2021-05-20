@@ -8,5 +8,11 @@ namespace OndatoCacheSolution.Domain.Services
 {
     public class CacheService : GenericCacheService<string, List<object>>
     {
+        public void Append(string key, List<object> value, TimeSpan expiresAfter)
+        {
+            var cachedValue = Get(key);
+            Create(key, value.Concat(value).ToList(), expiresAfter);
+
+        }
     }
 }
