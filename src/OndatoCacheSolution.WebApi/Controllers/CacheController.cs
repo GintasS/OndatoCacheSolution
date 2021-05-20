@@ -2,10 +2,6 @@
 using OndatoCacheSolution.Domain.Dtos;
 using OndatoCacheSolution.Domain.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OndatoCacheSolution.WebApi.Controllers
 {
@@ -21,7 +17,7 @@ namespace OndatoCacheSolution.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateCacheItemDto cacheItemDto)
+        public IActionResult Create(CreateListCacheItemDto cacheItemDto)
         {
             _cacheService.Create(cacheItemDto);
 

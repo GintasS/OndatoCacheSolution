@@ -2,13 +2,10 @@
 using OndatoCacheSolution.Domain.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OndatoCacheSolution.Domain.Services
 {
-    public class GenericCacheService<TKey, TValue>
+    public abstract class GenericCacheService<TKey, TValue>
     {
         protected readonly Dictionary<TKey, CacheItem<TValue>> _cache = new Dictionary<TKey, CacheItem<TValue>>();
 
@@ -33,7 +30,7 @@ namespace OndatoCacheSolution.Domain.Services
             {
                 throw new CacheException($"{key} was not found in the cache");
             }
-             
+
             var cached = _cache[key];
             if (DateTimeOffset.Now - cached.Created >= cached.ExpiresAfter)
             {

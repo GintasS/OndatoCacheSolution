@@ -2,11 +2,6 @@
 using OndatoCacheSolution.Domain.Factories;
 using OndatoCacheSolution.Domain.Mappings;
 using OndatoCacheSolution.Domain.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OndatoCacheSolution.Domain
 {
@@ -16,7 +11,7 @@ namespace OndatoCacheSolution.Domain
         {
             services.AddSingleton<CacheService>();
 
-            services.AddScoped<CacheItemFactory>();
+            services.AddSingleton<CacheItemFactory>();
 
             services.AddAutoMapper(typeof(MappingsProfile));
         }

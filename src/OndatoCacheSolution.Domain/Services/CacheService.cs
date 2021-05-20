@@ -1,21 +1,18 @@
-﻿using AutoMapper;
-using OndatoCacheSolution.Domain.Dtos;
-using OndatoCacheSolution.Domain.Models;
+﻿using OndatoCacheSolution.Domain.Dtos;
+using OndatoCacheSolution.Domain.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OndatoCacheSolution.Domain.Services
 {
     public class CacheService : GenericCacheService<string, List<object>>
     {
-        private readonly IMapper _mapper;
+        private readonly CacheItemFactory _cacheItemfactory;
 
-        public CacheService(IMapper mapper)
+        public CacheService(CacheItemFactory cacheItemfactory)
         {
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _cacheItemfactory = cacheItemfactory ?? throw new ArgumentNullException(nameof(cacheItemfactory));
         }
 
         public void Append(string key, List<object> value, TimeSpan expiresAfter)
@@ -24,10 +21,11 @@ namespace OndatoCacheSolution.Domain.Services
             Create(key, cachedValue.Concat(value).ToList(), expiresAfter);
         }
 
-        public void Create(CreateCacheItemDto itemDto)
+        public void Create(CreateListCacheItemDto itemDto)
         {
-            var item = _mapper.Map<ListCacheItem>(itemDto);
-            _cache[itemDto.Key] = item;
+            var cacheItem = _cacheItemfactory.Build(itemDto);
+
+            Create(itemDto.Key, cacheItem);
         }
     }
 }
