@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using OndatoCacheSolution.Domain.Factories;
 using OndatoCacheSolution.Domain.Mappings;
 using OndatoCacheSolution.Domain.Services;
 using System;
@@ -14,6 +15,9 @@ namespace OndatoCacheSolution.Domain
         public static void ConfigureDomainServices(this IServiceCollection services)
         {
             services.AddSingleton<CacheService>();
+
+            services.AddScoped<CacheItemFactory>();
+
             services.AddAutoMapper(typeof(MappingsProfile));
         }
     }

@@ -1,4 +1,5 @@
-﻿using OndatoCacheSolution.Domain.Models;
+﻿using OndatoCacheSolution.Domain.Dtos;
+using OndatoCacheSolution.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace OndatoCacheSolution.Domain.Factories
 {
     public class CacheItemFactory
     {
-        public CacheItem<T> Build<T>()
+        public CacheItem<T> Build<T>(CreateCacheItemDto dto)
         {
             throw new NotImplementedException();
         }
