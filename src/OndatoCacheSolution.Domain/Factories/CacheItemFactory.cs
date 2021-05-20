@@ -17,9 +17,15 @@ namespace OndatoCacheSolution.Domain.Factories
 
         public CacheItem<T> Build<T>(CreateCacheItemDto<T> dto)
         {
-            var offsetValue = !String.IsNullOrEmpty(dto.Offset) ?
-                TimeSpan.Parse(dto.Offset) :
-                _cacheSettings.DefaultExpirationPeriod;
+            TimeSpan offsetValue;
+
+            try {
+                offsetValue = TimeSpan.Parse(dto.Offset);
+            }
+            catch(Exception)
+            {
+                offsetValue = _cacheSettings.DefaultExpirationPeriod; //Set default value;
+            }
 
             return new CacheItem<T>(dto.Value, offsetValue);
         }

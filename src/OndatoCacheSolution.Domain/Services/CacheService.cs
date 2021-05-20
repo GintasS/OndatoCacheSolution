@@ -1,31 +1,48 @@
-﻿using OndatoCacheSolution.Domain.Dtos;
+﻿using OndatoCacheSolution.Domain.Caches;
+using OndatoCacheSolution.Domain.Dtos;
 using OndatoCacheSolution.Domain.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace OndatoCacheSolution.Domain.Services
 {
-    public class CacheService : GenericCacheService<string, List<object>>
+    public class CacheService
     {
-        private readonly CacheItemFactory _cacheItemfactory;
+        private readonly Cache _cache;
+        private readonly CacheItemFactory _cacheItemFactory;
 
-        public CacheService(CacheItemFactory cacheItemfactory)
+        public CacheService(Cache cache, CacheItemFactory cacheItemFactory)
         {
-            _cacheItemfactory = cacheItemfactory ?? throw new ArgumentNullException(nameof(cacheItemfactory));
+            _cache = cache ?? throw new ArgumentNullException(nameof(cache));
+            _cacheItemFactory = cacheItemFactory ?? throw new ArgumentNullException(nameof(cacheItemFactory));
         }
 
-        public void Append(string key, List<object> value, TimeSpan expiresAfter)
+        public IEnumerable<object> Get(string key)
         {
-            var cachedValue = Get(key);
-            Create(key, cachedValue.Concat(value).ToList(), expiresAfter);
+            return _cache.Get(key);
         }
 
         public void Create(CreateListCacheItemDto itemDto)
         {
-            var cacheItem = _cacheItemfactory.Build(itemDto);
+            var cacheItem = _cacheItemFactory.Build(itemDto);
 
-            Create(itemDto.Key, cacheItem);
+            _cache.Set(itemDto.Key, cacheItem);
+        }
+
+        public void Append(CreateListCacheItemDto itemDto)
+        {
+            var cacheItem = _cacheItemFactory.Build(itemDto);
+
+            var cachedValue = _cache.Get(itemDto.Key);
+            _cache.Set(itemDto.Key, cachedValue.Concat(cacheItem.Value).ToList(), cacheItem.ExpiresAfter);
+        }
+
+        public void Remove(string key)
+        {
+            _cache.Remove(key);
         }
     }
 }

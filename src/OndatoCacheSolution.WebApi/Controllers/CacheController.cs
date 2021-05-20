@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OndatoCacheSolution.Domain.Caches;
 using OndatoCacheSolution.Domain.Dtos;
 using OndatoCacheSolution.Domain.Services;
 using System;
@@ -29,6 +30,18 @@ namespace OndatoCacheSolution.WebApi.Controllers
         {
             var value = _cacheService.Get(key);
             return Ok(value);
+        }
+
+        [HttpDelete]
+        public IActionResult Remove(string key)
+        {
+            _cacheService.Remove(key);
+            return NoContent();
+        }
+
+        public IActionResult Append(CreateListCacheItemDto dto)
+        {
+            _cacheService.Append(dto);
         }
     }
 }

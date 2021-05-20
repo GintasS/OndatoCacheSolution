@@ -3,23 +3,23 @@ using OndatoCacheSolution.Domain.Models;
 using System;
 using System.Collections.Generic;
 
-namespace OndatoCacheSolution.Domain.Services
+namespace OndatoCacheSolution.Domain.Caches.Base
 {
-    public abstract class GenericCacheService<TKey, TValue>
+    public abstract class GenericCache<TKey, TValue>
     {
         protected readonly Dictionary<TKey, CacheItem<TValue>> _cache = new Dictionary<TKey, CacheItem<TValue>>();
 
-        public void Create(TKey key, TValue value, TimeSpan expiresAfter)
+        public void Set(TKey key, TValue value, TimeSpan expiresAfter)
         {
             _cache[key] = new CacheItem<TValue>(value, expiresAfter);
         }
 
-        public void Create(TKey key, CacheItem<TValue> cacheItem)
+        public void Set(TKey key, CacheItem<TValue> cacheItem)
         {
             _cache[key] = cacheItem;
         }
 
-        public void Delete(TKey key)
+        public void Remove(TKey key)
         {
             _cache.Remove(key);
         }
@@ -35,7 +35,7 @@ namespace OndatoCacheSolution.Domain.Services
             if (DateTimeOffset.Now - cached.Created >= cached.ExpiresAfter)
             {
                 //_cache.Remove(key);
-                return default(TValue);
+                return default;
             }
             return cached.Value;
         }
