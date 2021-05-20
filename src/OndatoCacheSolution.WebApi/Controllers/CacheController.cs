@@ -39,9 +39,12 @@ namespace OndatoCacheSolution.WebApi.Controllers
             return NoContent();
         }
 
+        [HttpPut]
         public IActionResult Append(CreateListCacheItemDto dto)
         {
             _cacheService.Append(dto);
+
+            return NoContent();
         }
     }
 }
