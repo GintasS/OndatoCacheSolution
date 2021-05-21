@@ -1,15 +1,15 @@
 ﻿using OndatoCacheSolution.Domain.Converter;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace OndatoCacheSolution.Domain.Settings
 {
     public class CacheSettings
     {
-        [System.Text.Json.Serialization.JsonConverterAttribute(typeof(TimeSpanConverter))]
+        [JsonConverterAttribute(typeof(TimeSpanConverter))]
         public TimeSpan DefaultExpirationPeriod { get; set; }
+
+        [JsonConverterAttribute(typeof(TimeSpanConverter))]
+        public TimeSpan MaxExpirationPeriod { get; set; }
     }
 }

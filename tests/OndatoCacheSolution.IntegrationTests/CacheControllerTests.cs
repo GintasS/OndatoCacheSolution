@@ -40,7 +40,7 @@ namespace OndatoCacheSolution.IntegrationTests
             var receivedStringValue = await response.Content.ReadAsStringAsync();
             var receivedValue = JsonConvert.DeserializeObject<List<object>>(receivedStringValue);
 
-            dto.Value.Count().Should().Be(receivedValue.Count());
+            receivedValue.Count().Should().Be(dto.Value.Count());
         }
 
         [Fact]
@@ -62,13 +62,16 @@ namespace OndatoCacheSolution.IntegrationTests
                .With(c => c.Value, _fixture.CreateMany<object>(5).ToList()
                ).Create();
 
+            response = await client.PostAsJsonAsync("/Cache", newDto);
+            response.EnsureSuccessStatusCode();
+
             response = await client.GetAsync($"/Cache/{newDto.Key}");
             response.EnsureSuccessStatusCode();
 
             var receivedStringValue = await response.Content.ReadAsStringAsync();
             var receivedValue = JsonConvert.DeserializeObject<List<object>>(receivedStringValue);
 
-            newDto.Value.Count().Should().Be(receivedValue.Count());
+            receivedValue.Count().Should().Be(newDto.Value.Count());
         }
 
         [Fact]
@@ -89,7 +92,7 @@ namespace OndatoCacheSolution.IntegrationTests
         }
 
         [Fact]
-        public async Task Put_GivenNewItem_DataGetsAppended()
+        public async Task Put_GivenExistingItem_DataGetsAppended()
         {
             var client = _factory.CreateClient();
 
@@ -108,7 +111,53 @@ namespace OndatoCacheSolution.IntegrationTests
             var receivedStringValue = await response.Content.ReadAsStringAsync();
             var receivedValue = JsonConvert.DeserializeObject<List<object>>(receivedStringValue);
 
-            (dto.Value.Count() * 2).Should().Be(receivedValue.Count());
+            receivedValue.Count().Should().Be(dto.Value.Count() * 2);
+        }
+
+
+        [Fact]
+        public async Task Create_Given1MsTimeSpan_ValueGetsDeletedOnGet()
+        {
+            var client = _factory.CreateClient();
+
+            var dto = _fixture.Build<CreateListCacheItemDto>()
+                .With(c => c.Key, "00:00:00.001")
+                .With(c => c.Value, _fixture.CreateMany<object>().ToList())
+                .With(c => c.Offset, "00:00:00.001")
+                .Create();
+
+            var response = await client.PostAsJsonAsync("/Cache", dto);
+            response.EnsureSuccessStatusCode();
+
+            await System.Threading.Tasks.Task.Delay(100); //Hack
+
+            response = await client.GetAsync($"/Cache/{dto.Key}");
+            response.StatusCode.Should().Be(404);
+
+        }
+
+        [Fact]
+        public async Task Put_GivenNonExistingKey_ItemGetsCreated()
+        {
+            var client = _factory.CreateClient();
+
+            var dto = _fixture.Build<CreateListCacheItemDto>()
+                .With(c => c.Key, "NonExisting")
+                .With(c => c.Value, _fixture.CreateMany<object>().ToList()).Create();
+
+            var response = await client.PostAsJsonAsync("/Cache", dto);
+            response.EnsureSuccessStatusCode();
+
+            response = await client.PutAsJsonAsync("/Cache", dto);
+            response.EnsureSuccessStatusCode();
+
+            response = await client.GetAsync($"/Cache/{dto.Key}");
+            response.EnsureSuccessStatusCode();
+
+            var receivedStringValue = await response.Content.ReadAsStringAsync();
+            var receivedValue = JsonConvert.DeserializeObject<List<object>>(receivedStringValue);
+
+            receivedValue.Count().Should().Be(dto.Value.Count() * 2);
         }
     }
 }

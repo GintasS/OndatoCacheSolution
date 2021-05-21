@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OndatoCacheSolution.Domain.Caches;
 using OndatoCacheSolution.Domain.Dtos;
 using OndatoCacheSolution.Domain.Exceptions;
 using OndatoCacheSolution.Domain.Services;
@@ -38,7 +37,7 @@ namespace OndatoCacheSolution.WebApi.Controllers
             {
                 return NotFound(ex.Message);
             }
-            
+
         }
 
         [HttpDelete("{key}")]

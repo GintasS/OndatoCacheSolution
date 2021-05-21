@@ -34,8 +34,8 @@ namespace OndatoCacheSolution.Domain.Caches.Base
             var cached = _cache[key];
             if (DateTimeOffset.Now - cached.Created >= cached.ExpiresAfter)
             {
-                //_cache.Remove(key);
-                return default;
+                _cache.Remove(key);
+                throw new CacheException($"{key} was not found in the cache");
             }
             return cached.Value;
         }
