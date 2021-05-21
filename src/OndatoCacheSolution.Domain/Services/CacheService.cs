@@ -11,7 +11,7 @@ namespace OndatoCacheSolution.Domain.Services
 {
     public class CacheService<TKey, TValue>
     {
-        protected readonly GenericCache<TKey, TValue> _cache;
+        private readonly GenericCache<TKey, TValue> _cache;
         protected readonly CacheItemFactory<TKey, TValue> _cacheItemFactory;
         protected readonly CreateCacheItemValidator<TValue> _validator;
 

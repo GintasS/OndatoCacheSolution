@@ -1,5 +1,7 @@
-﻿using OndatoCacheSolution.Domain.Exceptions.Base;
+﻿using Microsoft.Extensions.Options;
+using OndatoCacheSolution.Domain.Exceptions.Base;
 using OndatoCacheSolution.Domain.Models;
+using OndatoCacheSolution.Domain.Settings;
 using System;
 using System.Collections.Generic;
 
@@ -9,7 +11,7 @@ namespace OndatoCacheSolution.Domain.Caches.Base
     {
         protected readonly Dictionary<TKey, CacheItem<TValue>> _cache = new Dictionary<TKey, CacheItem<TValue>>();
 
-        public void Set(TKey key, TValue value, TimeSpan expiresAfter)
+        public virtual void Set(TKey key, TValue value, TimeSpan expiresAfter)
         {
             _cache[key] = new CacheItem<TValue>(value, expiresAfter);
         }
@@ -32,11 +34,14 @@ namespace OndatoCacheSolution.Domain.Caches.Base
             }
 
             var cached = _cache[key];
-            if (DateTimeOffset.Now - cached.Created >= cached.ExpiresAfter)
+            if (DateTimeOffset.Now - cached.LastRefreshed >= cached.ExpiresAfter)
             {
                 _cache.Remove(key);
                 throw new CacheException($"{key} was not found in the cache");
             }
+
+            //refreshing Expiry
+            cached.LastRefreshed = DateTimeOffset.Now;
             return cached.Value;
         }
     }

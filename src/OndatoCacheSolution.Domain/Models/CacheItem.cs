@@ -16,7 +16,7 @@ namespace OndatoCacheSolution.Domain.Models
             ExpiresAfter = expiresAfter;
         }
         public T Value { get; init; }
-        internal DateTimeOffset Created { get; } = DateTimeOffset.Now;
+        internal DateTimeOffset LastRefreshed { get; set; } = DateTimeOffset.Now;
         public TimeSpan ExpiresAfter { get; init; }
     }
 }

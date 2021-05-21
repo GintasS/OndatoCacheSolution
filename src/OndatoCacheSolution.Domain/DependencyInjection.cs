@@ -14,7 +14,7 @@ namespace OndatoCacheSolution.Domain
         public static void ConfigureDomainServices(this IServiceCollection services)
         {
             services.AddScoped<IEnumerableObjectCacheService<string, List<object>>>();
-            services.AddScoped<IEnumerableObjectCache<string, List<object>>>();
+            services.AddSingleton<IEnumerableObjectCache<string, List<object>>>();
             services.ConfigureTypedDomainServices<string, List<object>>();
             services.AddAutoMapper(typeof(MappingsProfile));
         }
