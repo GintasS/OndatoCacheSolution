@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using OndatoCacheSolution.Domain.Caches;
+using OndatoCacheSolution.Domain.Caches.Base;
 using OndatoCacheSolution.Domain.Factories;
 using OndatoCacheSolution.Domain.Mappings;
-using OndatoCacheSolution.Domain.Services;
 using OndatoCacheSolution.Domain.Validators;
 using System.Collections.Generic;
 
@@ -12,9 +11,7 @@ namespace OndatoCacheSolution.Domain
     {
         public static void ConfigureDomainServices(this IServiceCollection services)
         {
-            services.AddSingleton<Cache>();
-
-            services.AddScoped<CacheService>();
+            services.AddSingleton<GenericCache<string, List<object>>>();
             services.AddScoped<CacheItemFactory>();
 
             services.AddScoped<CreateCacheItemValidator<List<object>>>();

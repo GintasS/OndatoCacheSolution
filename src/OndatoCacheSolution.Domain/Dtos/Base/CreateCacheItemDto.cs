@@ -1,8 +1,8 @@
 ﻿namespace OndatoCacheSolution.Domain.Dtos.Base
 {
-    public abstract class CreateCacheItemDto<T>
+    public class CreateCacheItemDto<TKey, T>
     {
-        public string Key { get; set; }
+        public TKey Key { get; set; }
 
         public T Value { get; set; }
 

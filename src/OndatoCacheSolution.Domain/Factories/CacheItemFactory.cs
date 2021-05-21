@@ -3,10 +3,11 @@ using OndatoCacheSolution.Domain.Dtos.Base;
 using OndatoCacheSolution.Domain.Models;
 using OndatoCacheSolution.Domain.Settings;
 using System;
+using System.Collections.Generic;
 
 namespace OndatoCacheSolution.Domain.Factories
 {
-    public class CacheItemFactory
+    public class CacheItemFactory<TKey, T> where T : List<object>
     {
         private readonly CacheSettings _cacheSettings;
 
@@ -15,7 +16,7 @@ namespace OndatoCacheSolution.Domain.Factories
             _cacheSettings = cacheSettings.Value;
         }
 
-        public CacheItem<T> Build<T>(CreateCacheItemDto<T> dto)
+        public CacheItem<T> Build(CreateCacheItemDto<TKey, T> dto)
         {
             TimeSpan offsetValue;
 

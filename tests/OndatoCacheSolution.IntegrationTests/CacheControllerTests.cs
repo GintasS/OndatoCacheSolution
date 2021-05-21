@@ -172,7 +172,6 @@ namespace OndatoCacheSolution.IntegrationTests
             var response = await client.PostAsJsonAsync("/Cache", dto);
 
             response.StatusCode.Should().Be(400);
-
         }
     }
 }
