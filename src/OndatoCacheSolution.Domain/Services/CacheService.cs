@@ -9,11 +9,11 @@ using System.Linq;
 
 namespace OndatoCacheSolution.Domain.Services
 {
-    public class CacheService<TKey, TValue> where TValue : List<object>
+    public class CacheService<TKey, TValue>
     {
-        private readonly GenericCache<TKey, TValue> _cache;
-        private readonly CacheItemFactory<TKey, TValue> _cacheItemFactory;
-        private readonly CreateCacheItemValidator<TValue> _validator;
+        protected readonly GenericCache<TKey, TValue> _cache;
+        protected readonly CacheItemFactory<TKey, TValue> _cacheItemFactory;
+        protected readonly CreateCacheItemValidator<TValue> _validator;
 
         public CacheService(GenericCache<TKey, TValue> cache, CacheItemFactory<TKey, TValue> cacheItemFactory, CreateCacheItemValidator<TValue> validator)
         {
@@ -40,14 +40,6 @@ namespace OndatoCacheSolution.Domain.Services
 
 
             _cache.Set(itemDto.Key, cacheItem);
-        }
-
-        public void Append(CreateCacheItemDto<TKey, TValue> itemDto)
-        {
-            var cacheItem = _cacheItemFactory.Build(itemDto);
-
-            var cachedValue = _cache.Get(itemDto.Key);
-            _cache.Set(itemDto.Key, cachedValue.Concat(cacheItem.Value), cacheItem.ExpiresAfter);
         }
 
         public void Remove(TKey key)

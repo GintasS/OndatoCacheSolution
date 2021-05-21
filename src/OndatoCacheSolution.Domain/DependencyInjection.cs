@@ -12,7 +12,7 @@ namespace OndatoCacheSolution.Domain
         public static void ConfigureDomainServices(this IServiceCollection services)
         {
             services.AddSingleton<GenericCache<string, List<object>>>();
-            services.AddScoped<CacheItemFactory>();
+            services.AddScoped<CacheItemFactory<string, List<object>>>();
 
             services.AddScoped<CreateCacheItemValidator<List<object>>>();
 

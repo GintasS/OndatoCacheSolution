@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace OndatoCacheSolution.Domain.Models
 {
-    public class CacheItem<T> :
+    public class CacheItem<T>
     {
         CacheItem()
         {

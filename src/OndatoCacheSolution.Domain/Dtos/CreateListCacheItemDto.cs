@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OndatoCacheSolution.Domain.Dtos
 {
-    public class CreateListCacheItemDto : CreateCacheItemDto<List<object>>
+    public class CreateListCacheItemDto : CreateCacheItemDto<string,List<object>>
     {
 
     }

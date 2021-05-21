@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace OndatoCacheSolution.Domain.Caches.Base
 {
-    public class GenericCache<TKey, TValue> where TValue : List<Object>
+    public class GenericCache<TKey, TValue> 
     {
         protected readonly Dictionary<TKey, CacheItem<TValue>> _cache = new Dictionary<TKey, CacheItem<TValue>>();
 

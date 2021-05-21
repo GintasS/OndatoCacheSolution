@@ -3,6 +3,7 @@ using OndatoCacheSolution.Domain.Dtos;
 using OndatoCacheSolution.Domain.Exceptions.Base;
 using OndatoCacheSolution.Domain.Services;
 using System;
+using System.Collections.Generic;
 
 namespace OndatoCacheSolution.WebApi.Controllers
 {
@@ -10,9 +11,9 @@ namespace OndatoCacheSolution.WebApi.Controllers
     [Route("[controller]")]
     public class CacheController : ControllerBase
     {
-        private readonly CacheService _cacheService;
+        private readonly CacheService<string, List<object>> _cacheService;
 
-        public CacheController(CacheService cacheService)
+        public CacheController(CacheService<string, List<object>> cacheService)
         {
             _cacheService = cacheService ?? throw new ArgumentNullException(nameof(cacheService));
         }
@@ -57,7 +58,7 @@ namespace OndatoCacheSolution.WebApi.Controllers
         [HttpPut]
         public IActionResult Append(CreateListCacheItemDto dto)
         {
-            _cacheService.Append(dto);
+            //_cacheService.Append(dto);
 
             return NoContent();
         }

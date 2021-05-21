@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace OndatoCacheSolution.Domain.Factories
 {
-    public class CacheItemFactory<TKey, T> where T : List<object>
+    public class CacheItemFactory<TKey, T>
     {
         private readonly CacheSettings _cacheSettings;
 
