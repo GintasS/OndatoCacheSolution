@@ -1,11 +1,11 @@
 ﻿using OndatoCacheSolution.Domain.Caches;
 using OndatoCacheSolution.Domain.Dtos;
+using OndatoCacheSolution.Domain.Exceptions;
 using OndatoCacheSolution.Domain.Factories;
+using OndatoCacheSolution.Domain.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OndatoCacheSolution.Domain.Services
 {
@@ -13,11 +13,13 @@ namespace OndatoCacheSolution.Domain.Services
     {
         private readonly Cache _cache;
         private readonly CacheItemFactory _cacheItemFactory;
+        private readonly CreateCacheItemValidator<List<object>> _validator;
 
-        public CacheService(Cache cache, CacheItemFactory cacheItemFactory)
+        public CacheService(Cache cache, CacheItemFactory cacheItemFactory, CreateCacheItemValidator<List<object>> validator)
         {
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
             _cacheItemFactory = cacheItemFactory ?? throw new ArgumentNullException(nameof(cacheItemFactory));
+            _validator = validator;
         }
 
         public IEnumerable<object> Get(string key)
@@ -28,6 +30,14 @@ namespace OndatoCacheSolution.Domain.Services
         public void Create(CreateListCacheItemDto itemDto)
         {
             var cacheItem = _cacheItemFactory.Build(itemDto);
+
+            var validationResult = _validator.Validate(cacheItem);
+
+            if (!validationResult.IsValid)
+            {
+                throw new CacheValidationException(validationResult.ToString());
+            }
+
 
             _cache.Set(itemDto.Key, cacheItem);
         }

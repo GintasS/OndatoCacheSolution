@@ -129,7 +129,7 @@ namespace OndatoCacheSolution.IntegrationTests
             var response = await client.PostAsJsonAsync("/Cache", dto);
             response.EnsureSuccessStatusCode();
 
-            await System.Threading.Tasks.Task.Delay(100); //Hack
+            await Task.Delay(100); //Need to wait couple ms to trigger deleted
 
             response = await client.GetAsync($"/Cache/{dto.Key}");
             response.StatusCode.Should().Be(404);
@@ -158,6 +158,21 @@ namespace OndatoCacheSolution.IntegrationTests
             var receivedValue = JsonConvert.DeserializeObject<List<object>>(receivedStringValue);
 
             receivedValue.Count().Should().Be(dto.Value.Count() * 2);
+        }
+
+        [Fact]
+        public async Task Create_GivenInvalidOffset_ReturnsValidationError()
+        {
+            var client = _factory.CreateClient();
+
+            var dto = _fixture.Build<CreateListCacheItemDto>()
+                .With(c => c.Offset, "05:00:00")
+                .Create();
+
+            var response = await client.PostAsJsonAsync("/Cache", dto);
+
+            response.StatusCode.Should().Be(400);
+
         }
     }
 }

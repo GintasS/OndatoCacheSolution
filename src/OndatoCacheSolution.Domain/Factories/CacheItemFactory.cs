@@ -19,10 +19,11 @@ namespace OndatoCacheSolution.Domain.Factories
         {
             TimeSpan offsetValue;
 
-            try {
+            try
+            {
                 offsetValue = TimeSpan.Parse(dto.Offset);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 offsetValue = _cacheSettings.DefaultExpirationPeriod; //Set default value;
             }

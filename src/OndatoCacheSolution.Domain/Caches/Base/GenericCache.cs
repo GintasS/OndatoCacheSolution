@@ -1,4 +1,4 @@
-﻿using OndatoCacheSolution.Domain.Exceptions;
+﻿using OndatoCacheSolution.Domain.Exceptions.Base;
 using OndatoCacheSolution.Domain.Models;
 using System;
 using System.Collections.Generic;

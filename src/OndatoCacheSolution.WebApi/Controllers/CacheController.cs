@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OndatoCacheSolution.Domain.Dtos;
-using OndatoCacheSolution.Domain.Exceptions;
+using OndatoCacheSolution.Domain.Exceptions.Base;
 using OndatoCacheSolution.Domain.Services;
 using System;
 
@@ -20,7 +20,14 @@ namespace OndatoCacheSolution.WebApi.Controllers
         [HttpPost]
         public IActionResult Create(CreateListCacheItemDto cacheItemDto)
         {
-            _cacheService.Create(cacheItemDto);
+            try
+            {
+                _cacheService.Create(cacheItemDto);
+            }
+            catch (CacheException ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
             return Ok();
         }

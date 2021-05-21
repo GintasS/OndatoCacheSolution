@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OndatoCacheSolution.Domain.Exceptions
+namespace OndatoCacheSolution.Domain.Exceptions.Base
 {
     public class CacheException : Exception
     {

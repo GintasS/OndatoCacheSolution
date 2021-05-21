@@ -11,5 +11,8 @@ namespace OndatoCacheSolution.Domain.Settings
 
         [JsonConverterAttribute(typeof(TimeSpanConverter))]
         public TimeSpan MaxExpirationPeriod { get; set; }
+
+        [JsonConverterAttribute(typeof(TimeSpanConverter))]
+        public TimeSpan CleanupInterval { get; set; }
     }
 }
