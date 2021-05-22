@@ -16,7 +16,7 @@ namespace OndatoCacheSolution.IntegrationTests
     public class CacheControllerTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly WebApplicationFactory<Startup> _factory;
-        private readonly Fixture _fixture = new Fixture();
+        private readonly Fixture _fixture = new();
 
         public CacheControllerTests(WebApplicationFactory<Startup> factory)
         {
@@ -40,14 +40,14 @@ namespace OndatoCacheSolution.IntegrationTests
             var receivedStringValue = await response.Content.ReadAsStringAsync();
             var receivedValue = JsonConvert.DeserializeObject<List<object>>(receivedStringValue);
 
-            receivedValue.Count().Should().Be(dto.Value.Count());
+            receivedValue.Count.Should().Be(dto.Value.Count);
         }
 
         [Fact]
         public async Task Create_GivenExistingKey_ValueGetsOverwritten()
         {
             var client = _factory.CreateClient();
-            var key = "key";
+            const string key = "key";
 
             var dto = _fixture.Build<CreateListCacheItemDto>()
                 .With(c => c.Key, key)
@@ -71,7 +71,7 @@ namespace OndatoCacheSolution.IntegrationTests
             var receivedStringValue = await response.Content.ReadAsStringAsync();
             var receivedValue = JsonConvert.DeserializeObject<List<object>>(receivedStringValue);
 
-            receivedValue.Count().Should().Be(newDto.Value.Count());
+            receivedValue.Count.Should().Be(newDto.Value.Count);
         }
 
         [Fact]
@@ -111,7 +111,7 @@ namespace OndatoCacheSolution.IntegrationTests
             var receivedStringValue = await response.Content.ReadAsStringAsync();
             var receivedValue = JsonConvert.DeserializeObject<List<object>>(receivedStringValue);
 
-            receivedValue.Count().Should().Be(dto.Value.Count() * 2);
+            receivedValue.Count.Should().Be(dto.Value.Count * 2);
         }
 
 
@@ -157,7 +157,7 @@ namespace OndatoCacheSolution.IntegrationTests
             var receivedStringValue = await response.Content.ReadAsStringAsync();
             var receivedValue = JsonConvert.DeserializeObject<List<object>>(receivedStringValue);
 
-            receivedValue.Count().Should().Be(dto.Value.Count() * 2);
+            receivedValue.Count.Should().Be(dto.Value.Count * 2);
         }
 
         [Fact]
