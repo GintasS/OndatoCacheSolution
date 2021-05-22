@@ -1,13 +1,8 @@
 ﻿using OndatoCacheSolution.Domain.Caches;
-using OndatoCacheSolution.Domain.Caches.Base;
 using OndatoCacheSolution.Domain.Dtos.Base;
 using OndatoCacheSolution.Domain.Factories;
 using OndatoCacheSolution.Domain.Validators;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OndatoCacheSolution.Domain.Services
 {
