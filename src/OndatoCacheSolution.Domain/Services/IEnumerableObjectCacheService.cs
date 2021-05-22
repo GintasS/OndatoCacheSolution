@@ -3,6 +3,7 @@ using OndatoCacheSolution.Domain.Dtos.Base;
 using OndatoCacheSolution.Domain.Factories;
 using OndatoCacheSolution.Domain.Validators;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OndatoCacheSolution.Domain.Services
 {

@@ -13,7 +13,7 @@ namespace OndatoCacheSolution.WebApi.Controllers.Base
     {
         private readonly CacheService<TKey, TValue> _cacheService;
 
-        public CacheControllerBase(CacheService<TKey, TValue> cacheService)
+        protected CacheControllerBase(CacheService<TKey, TValue> cacheService)
         {
             _cacheService = cacheService ?? throw new ArgumentNullException(nameof(cacheService));
         }
