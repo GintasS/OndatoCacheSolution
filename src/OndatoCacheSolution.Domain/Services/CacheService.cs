@@ -10,14 +10,14 @@ namespace OndatoCacheSolution.Domain.Services
     public class CacheService<TKey, TValue>
     {
         private readonly GenericCache<TKey, TValue> _cache;
-        protected readonly CacheItemFactory<TKey, TValue> _cacheItemFactory;
-        protected readonly CreateCacheItemValidator<TValue> _validator;
+        protected readonly CacheItemFactory<TKey, TValue> CacheItemFactory;
+        protected readonly CreateCacheItemValidator<TValue> Validator;
 
         public CacheService(GenericCache<TKey, TValue> cache, CacheItemFactory<TKey, TValue> cacheItemFactory, CreateCacheItemValidator<TValue> validator)
         {
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
-            _cacheItemFactory = cacheItemFactory ?? throw new ArgumentNullException(nameof(cacheItemFactory));
-            _validator = validator;
+            CacheItemFactory = cacheItemFactory ?? throw new ArgumentNullException(nameof(cacheItemFactory));
+            Validator = validator;
         }
 
         public TValue Get(TKey key)
@@ -27,9 +27,9 @@ namespace OndatoCacheSolution.Domain.Services
 
         public void Create(CreateCacheItemDto<TKey, TValue> itemDto)
         {
-            var cacheItem = _cacheItemFactory.Build(itemDto);
+            var cacheItem = CacheItemFactory.Build(itemDto);
 
-            var validationResult = _validator.Validate(cacheItem);
+            var validationResult = Validator.Validate(cacheItem);
 
             if (!validationResult.IsValid)
             {

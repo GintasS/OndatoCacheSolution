@@ -19,7 +19,7 @@ namespace OndatoCacheSolution.Domain.Services
 
         public void Append(CreateCacheItemDto<TKey, TValue> itemDto)
         {
-            var cacheItem = _cacheItemFactory.Build(itemDto);
+            var cacheItem = CacheItemFactory.Build(itemDto);
 
             var cachedValue = _cache.Get(itemDto.Key);
             var concatValue = (TValue) cachedValue.Concat(cacheItem.Value); //This causes issues

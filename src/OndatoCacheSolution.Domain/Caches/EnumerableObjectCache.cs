@@ -9,7 +9,7 @@ namespace OndatoCacheSolution.Domain.Caches
     {
         public override void Set(TKey key, TValue value, TimeSpan expiresAfter)
         {
-            _cache[key] = new CacheItem<TValue>(value, expiresAfter);
+            Cache[key] = new CacheItem<TValue>(value, expiresAfter);
         }
     }
 }

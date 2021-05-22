@@ -7,34 +7,34 @@ namespace OndatoCacheSolution.Domain.Caches.Base
 {
     public class GenericCache<TKey, TValue> 
     {
-        protected readonly Dictionary<TKey, CacheItem<TValue>> _cache = new Dictionary<TKey, CacheItem<TValue>>();
+        protected readonly Dictionary<TKey, CacheItem<TValue>> Cache = new();
 
         public virtual void Set(TKey key, TValue value, TimeSpan expiresAfter)
         {
-            _cache[key] = new CacheItem<TValue>(value, expiresAfter);
+            Cache[key] = new CacheItem<TValue>(value, expiresAfter);
         }
 
         public void Set(TKey key, CacheItem<TValue> cacheItem)
         {
-            _cache[key] = cacheItem;
+            Cache[key] = cacheItem;
         }
 
         public void Remove(TKey key)
         {
-            _cache.Remove(key);
+            Cache.Remove(key);
         }
 
         public TValue Get(TKey key)
         {
-            if (!_cache.ContainsKey(key))
+            if (!Cache.ContainsKey(key))
             {
                 throw new CacheException($"{key} was not found in the cache");
             }
 
-            var cached = _cache[key];
+            var cached = Cache[key];
             if (DateTimeOffset.Now - cached.LastRefreshed >= cached.ExpiresAfter)
             {
-                _cache.Remove(key);
+                Cache.Remove(key);
                 throw new CacheException($"{key} was not found in the cache");
             }
 

@@ -5,6 +5,7 @@ using OndatoCacheSolution.Domain.Factories;
 using OndatoCacheSolution.Domain.Mappings;
 using OndatoCacheSolution.Domain.Validators;
 using System.Collections.Generic;
+using OndatoCacheSolution.Domain.Services;
 
 namespace OndatoCacheSolution.Domain
 {
@@ -12,7 +13,7 @@ namespace OndatoCacheSolution.Domain
     {
         public static void ConfigureDomainServices(this IServiceCollection services)
         {
-            services.AddScoped<IEnumerableObjectCacheService<string, List<object>>>();
+            services.AddScoped<EnumerableObjectCacheService<string, List<object>>>();
             services.AddSingleton<EnumerableObjectCache<string, List<object>>>();
             services.ConfigureTypedDomainServices<string, List<object>>();
             services.AddAutoMapper(typeof(MappingsProfile));

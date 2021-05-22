@@ -4,7 +4,11 @@ namespace OndatoCacheSolution.Domain.Models
 {
     public class CacheItem<T>
     {
-        CacheItem()
+        public T Value { get; init; }
+        internal DateTimeOffset LastRefreshed { get; set; } = DateTimeOffset.Now;
+        public TimeSpan ExpiresAfter { get; init; }
+
+        private CacheItem()
         {
 
         }
@@ -14,8 +18,5 @@ namespace OndatoCacheSolution.Domain.Models
             Value = value;
             ExpiresAfter = expiresAfter;
         }
-        public T Value { get; init; }
-        internal DateTimeOffset LastRefreshed { get; set; } = DateTimeOffset.Now;
-        public TimeSpan ExpiresAfter { get; init; }
     }
 }
