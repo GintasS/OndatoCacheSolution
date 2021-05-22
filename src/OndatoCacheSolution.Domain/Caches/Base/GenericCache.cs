@@ -1,5 +1,7 @@
-﻿using OndatoCacheSolution.Domain.Exceptions.Base;
+﻿using Microsoft.Extensions.Options;
+using OndatoCacheSolution.Domain.Exceptions.Base;
 using OndatoCacheSolution.Domain.Models;
+using OndatoCacheSolution.Domain.Settings;
 using System;
 using System.Collections.Generic;
 
