@@ -10,18 +10,9 @@ namespace OndatoCacheSolution.WebApi.Controllers
     [Route("[controller]")]
     public class CacheController : CacheControllerBase<string, List<object>>
     {
-        private readonly EnumerableObjectCacheService<string, List<object>> _cacheService;
-        public CacheController(EnumerableObjectCacheService<string, List<object>> cacheService) : base(cacheService)
+        public CacheController(IEnumerableObjectCacheService<string, List<object>> cacheService,
+            IEnumerableObjectCacheService<string, List<object>> concreteCacheService) : base(cacheService, concreteCacheService)
         {
-            _cacheService = cacheService;
-        }
-
-        [HttpPut]
-        public IActionResult Append(CreateCacheItemDto<string, List<object>> dto)
-        {
-            _cacheService.Append(dto);
-
-            return NoContent();
         }
     }
 }

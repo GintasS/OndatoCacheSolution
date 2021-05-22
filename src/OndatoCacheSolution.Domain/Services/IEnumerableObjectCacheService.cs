@@ -23,8 +23,8 @@ namespace OndatoCacheSolution.Domain.Services
             var cacheItem = CacheItemFactory.Build(itemDto);
 
             var cachedValue = _cache.Get(itemDto.Key);
-            var concatValue = (TValue) cachedValue.Concat(cacheItem.Value); //This causes issues
-            _cache.Set(itemDto.Key, concatValue, cacheItem.ExpiresAfter);
+            cachedValue.AddRange(cacheItem.Value); //This causes issues
+            _cache.Set(itemDto.Key, cachedValue, cacheItem.ExpiresAfter);
         }
     }
 }

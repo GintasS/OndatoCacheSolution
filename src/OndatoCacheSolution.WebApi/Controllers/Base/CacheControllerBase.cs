@@ -11,10 +11,14 @@ namespace OndatoCacheSolution.WebApi.Controllers.Base
     public abstract class CacheControllerBase<TKey, TValue> : ControllerBase
     {
         private readonly CacheService<TKey, TValue> _cacheService;
+        private readonly IEnumerableObjectCacheService<string, List<object>> _concreteCacheService;
 
-        protected CacheControllerBase(CacheService<TKey, TValue> cacheService)
+
+        public CacheControllerBase(CacheService<TKey, TValue> cacheService, 
+        IEnumerableObjectCacheService<string, List<object>> concreteCacheService)
         {
             _cacheService = cacheService ?? throw new ArgumentNullException(nameof(cacheService));
+            _concreteCacheService = concreteCacheService ?? throw new ArgumentNullException(nameof(concreteCacheService));
         }
 
         [HttpPost]
@@ -51,6 +55,14 @@ namespace OndatoCacheSolution.WebApi.Controllers.Base
         public IActionResult Remove(TKey key)
         {
             _cacheService.Remove(key);
+            return NoContent();
+        }
+
+        [HttpPut]
+        public IActionResult Append(CreateCacheItemDto<string, List<object>> dto)
+        {
+            _concreteCacheService.Append(dto);
+
             return NoContent();
         }
     }
