@@ -3,7 +3,6 @@ using OndatoCacheSolution.Domain.Dtos.Base;
 using OndatoCacheSolution.Domain.Exceptions.Base;
 using OndatoCacheSolution.Domain.Services;
 using System;
-using System.Collections.Generic;
 
 namespace OndatoCacheSolution.WebApi.Controllers.Base
 {
